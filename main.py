@@ -105,8 +105,8 @@ async def settings(message):
         await message.answer("Отже, <b>ваші налаштування</b>:\n"
                              f"💸Монета: <b>{answer[0]}</b>\n"
                              f"Повідомити коли <b>{answer[0]}</b>:\n"
-                             f"Опустится ниже <b>{answer[1]}</b>\n"
-                             f"Зросте вище <b>{answer[2]}</b>\n"
+                             f"Опустится ниже <b>{answer[1]}$</b>\n"
+                             f"Зросте вище <b>{answer[2]}$</b>\n"
                              f"Що хочеш редагувати?🔄", reply_markup=keyboard_setting)
 
 
@@ -125,37 +125,37 @@ async def price_checker():
             users = await cursor.fetchall()
 
             for user in users:
-                if not user["notices"]:
-                    continue
+                if user["notices"]:
 
-                user_id = user["user_id"]
-                token = user["token"]
-                low_limit = user["low_limit"]
-                high_limit = user["high_limit"]
 
-                if low_limit is None or high_limit is None:
-                    continue
+                    user_id = user["user_id"]
+                    token = user["token"]
+                    low_limit = user["low_limit"]
+                    high_limit = user["high_limit"]
 
-                price_data = await get_binance_price(token)
-                if price_data is None:
-                    continue
-                price = price_data[0]
+                    if low_limit is None or high_limit is None:
+                        continue
 
-                if price >= high_limit:
-                    answer = await bot.send_message(
-                        user_id,
-                        f"📈 <b>{token}</b> перевищив верхній ліміт: {price:.2f} USDT!"
-                    )
-                    await asyncio.sleep(60)
-                    await bot.delete_message(chat_id=answer.chat.id, message_id=answer.message_id)
+                    price_data = await get_binance_price(token)
+                    if price_data is None:
+                        continue
+                    price = price_data[0]
 
-                elif price <= low_limit:
-                    answer = await bot.send_message(
-                        user_id,
-                        f"📉 <b>{token}</b> опустився нижче нижнього ліміту: {price:.2f} USDT!"
-                    )
-                    await asyncio.sleep(60)
-                    await bot.delete_message(chat_id=answer.chat.id, message_id=answer.message_id)
+                    if price >= high_limit:
+                        answer = await bot.send_message(
+                            user_id,
+                            f"📈 <b>{token}</b> перевищив верхній ліміт: {price:.2f} USDT!"
+                        )
+                        await asyncio.sleep(60)
+                        await bot.delete_message(chat_id=answer.chat.id, message_id=answer.message_id)
+
+                    elif price <= low_limit:
+                        answer = await bot.send_message(
+                            user_id,
+                            f"📉 <b>{token}</b> опустився нижче нижнього ліміту: {price:.2f} USDT!"
+                        )
+                        await asyncio.sleep(60)
+                        await bot.delete_message(chat_id=answer.chat.id, message_id=answer.message_id)
 
             await asyncio.sleep(60)
 

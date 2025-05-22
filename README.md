@@ -14,7 +14,7 @@ Telegram-бот для моніторингу цін криптовалют у �
 
 ## 🧹 Стек технологій
 
-* Python 3.10+
+* Python 3.12+
 * [Aiogram 3](https://docs.aiogram.dev/)
 * aiomysql
 * asyncio
@@ -64,25 +64,7 @@ BOT_TOKEN=ваш_telegram_bot_token
 WEB_APP=https://ваш_веб_додаток_з_графіком
 ```
 
-### 4. Налаштуйте базу MySQL
-
-```sql
-CREATE DATABASE crypto_bot;
-
-USE crypto_bot;
-
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL UNIQUE,
-    name VARCHAR(255),
-    token VARCHAR(20) DEFAULT 'BTCUSDT',
-    low_limit INT DEFAULT NULL,
-    high_limit INT DEFAULT NULL,
-    notices BOOLEAN DEFAULT TRUE
-);
-```
-
-### 5. Запуск
+### 4. Запуск
 
 ```bash
 python main.py

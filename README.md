@@ -62,6 +62,13 @@ pip freeze > requirements.txt
 ```env
 BOT_TOKEN=ваш_telegram_bot_token
 WEB_APP=https://ваш_веб_додаток_з_графіком
+
+MYSQL_HOST=ваш_хост_бази_данних
+MYSQL_PORT=3306
+MYSQL_USER=ваш_користувач #За замовчуванням root
+MYSQL_PASSWORD=ваш_пароль
+MYSQL_DB=ваша_бд
+
 ```
 
 ### 4. Запуск
